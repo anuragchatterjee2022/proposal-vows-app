@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accept the Proposal</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+    <audio id="wedding-music" src="wedding.mp3" preload="auto"></audio>
+    <audio id="fun-music" src="fun.mp3" preload="auto"></audio>
+    <audio id="chill-music" src="chill.mp3" preload="auto"></audio>
+
+    <header>
+        <h1>Love Paperwork Dot Com</h1>
+    </header>
+
+    <main id="ceremonyContainer">
+        
+        <section id="vowSection">
+            <h2>Almost there, <span id="partnerPlaceholder"></span>!</h2>
+            <p id="vowText" class="vow-question"></p>
+            <button id="acceptButton">Yes I do!</button>
+        </section>
+
+        <section id="certificateSection" style="display: none;">
+            <h2>Congratulations!</h2>
+            <p>Your certificate is ready!</p>
+            
+            <div id="signature-area" class="signature-box">
+                <p>Sign your name below to finalize the certificate:</p>
+                <canvas id="signatureCanvas"></canvas>
+                <button id="clearSignatureButton" type="button" class="button-small">Clear Signature</button>
+            </div>
+            
+            <div id="certificate-content" class="certificate-template">
+                <div class="cert-watermark">VIRTUAL AFFIRMATION</div>
+                <p class="cert-title">CERTIFICATE of Virtual Marriage</p>
+                <div class="ring-icon">💍</div>
+                <p class="cert-line">This certifies that on <span id="certDate"></span></p>
+                <p class="cert-names"><span id="certP1"></span> & <span id="certP2"></span></p>
+                
+                <div id="signaturePlacement" class="signature-line"></div>
+                
+                <p class="cert-note">This certificate is a fun, non-legal affirmation of love at lovepaperwork.com</p>
+            </div>
+            
+            <button id="downloadPdfButton">⬇️ Download Certificate (PDF)</button>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

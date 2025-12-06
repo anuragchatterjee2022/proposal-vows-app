@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Paperwork | Make a Virtual Proposal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Love Paperwork Dot Com</h1>
+        <p>Your non-legal affirmation of love.</p>
+    </header>
+
+    <main>
+        <h2>Make a Proposal</h2>
+        
+        <form id="proposalForm">
+            <label for="proposerName">Your Name:</label>
+            <input type="text" id="proposerName" required placeholder="Anurag">
+
+            <label for="partnerName">Their Name:</label>
+            <input type="text" id="partnerName" required placeholder="Ankita">
+
+            <label for="ceremonyDate">Date on Certificate:</label>
+            <input type="date" id="ceremonyDate" required>
+            
+            <label for="vowType">Choose Your Vow Theme:</label>
+            <select id="vowType" required>
+                <option value="wifi">Tech/WiFi (e.g., No WiFi, 1% battery)</option>
+                <option value="food">Food & Snacks (e.g., Last slice of pizza)</option>
+                <option value="chores">Chores/Daily Life (e.g., Leave cap off toothpaste)</option>
+            </select>
+              
+            <label for="music">Choose Ceremony Music:</label>
+            <select id="music" required>
+                <option value="wedding">Classic Wedding March</option>
+                <option value="fun">Upbeat Pop</option>
+                <option value="chill">Relaxed Instrumental</option>
+            </select>
+
+            <button type="submit">Generate Proposal Link</button>
+        </form>
+
+        <div id="result" style="display: none;">
+            <h3>💖 Proposal Sent!</h3>
+            <p>Copy and share this link with your partner:</p>
+            <div id="shareLinkContainer">
+                </div>
+            <p class="note">Your partner must click this link to accept the proposal.</p>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
