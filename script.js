@@ -190,10 +190,6 @@ function handleCeremony() {
         return;
     }
 
-    // Populate placeholders
-    document.getElementById('proposerPlaceholder').textContent = proposerName;
-    document.getElementById('partnerPlaceholder').textContent = partnerName;
-
     // Vow Theme Logic
     const VOWS = {
         wifi: [
@@ -212,14 +208,25 @@ function handleCeremony() {
 
     const selectedVows = VOWS[vowTheme] || VOWS.wifi;
     const vowIndex = Math.floor(Math.random() * selectedVows.length); 
-    document.getElementById('vowText').textContent = selectedVows[vowIndex];
+    
+    // ***************************************************************
+    // FIX: URL Decoding and Name Population
+    // ***************************************************************
+    const decodedPartnerName = decodeURIComponent(partnerName);
+    const decodedProposerName = decodeURIComponent(proposerName);
+    
+    document.getElementById('proposerPlaceholder').textContent = decodedProposerName;
+    document.getElementById('partnerPlaceholder').textContent = decodedPartnerName;
+
+    document.getElementById('vowText').textContent = selectedVows[vowIndex].replace('${partnerName}', decodedPartnerName);
+
 
     // Handle the 'Yes I do!' click
     if (acceptButton) {
         acceptButton.addEventListener('click', function() {
             // Update the Congratulations header text
-            document.querySelector('#certificateSection h2').textContent = `Congratulations, ${proposerName} and ${partnerName}!`;
-            document.querySelector('#certificateSection p:nth-child(2)').textContent = `${proposerName} and ${partnerName} are virtually married!`;
+            document.querySelector('#certificateSection h2').textContent = `Congratulations, ${decodedProposerName} and ${decodedPartnerName}!`;
+            document.querySelector('#certificateSection p:nth-child(2)').textContent = `${decodedProposerName} and ${decodedPartnerName} are virtually married!`;
             
             document.getElementById('vowSection').style.display = 'none';
             document.getElementById('certificateSection').style.display = 'block';
@@ -228,12 +235,12 @@ function handleCeremony() {
 
             // Populate the certificate details
             document.getElementById('certDate').textContent = new Date(ceremonyDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-            document.getElementById('certP1').textContent = proposerName;
-            document.getElementById('certP2').textContent = partnerName;
+            document.getElementById('certP1').textContent = decodedProposerName;
+            document.getElementById('certP2').textContent = decodedPartnerName;
             
             // Setup Signature and Attach PDF listener
             setupSignatureCanvas();
-            document.getElementById('downloadPdfButton').addEventListener('click', () => generatePdf(proposerName, partnerName));
+            document.getElementById('downloadPdfButton').addEventListener('click', () => generatePdf(decodedProposerName, decodedPartnerName));
             
             // Wow factor animation
             document.getElementById('certificateSection').style.opacity = 0;
