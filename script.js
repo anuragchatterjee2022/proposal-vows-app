@@ -29,15 +29,26 @@ function handleProposal() {
             return;
         }
 
-        // 1. Create the robust acceptance link with all parameters
+        // 1. Create the robust acceptance link (relative path)
         const acceptanceURL = `ceremony.html?p1=${encodeURIComponent(proposer)}&p2=${encodeURIComponent(partner)}&d=${encodeURIComponent(date)}&t=${encodeURIComponent(vowTheme)}&m=${encodeURIComponent(musicTrack)}`;
 
-        // 2. Display the full, shareable URL (FIXED FOR DEPLOYMENT)
+        // 2. GENERATE THE FULL, ABSOLUTE URL (FIXED FOR VERCEL/DEPLOYMENT):
+        let baseUrl = window.location.href;
+
+        // Logic to clean the current URL down to the base domain/folder path
+        if (baseUrl.includes('/index.html')) {
+            baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf('/') + 1);
+        } else if (!baseUrl.endsWith('/')) {
+            baseUrl += '/';
+        }
+
+        // Combine the base URL with the acceptance URL to create the final clickable link
+        const fullShareableLink = baseUrl + acceptanceURL;
+
+
+        // 3. Display the link
         const resultDiv = document.getElementById('result');
         const shareLinkContainer = document.getElementById('shareLinkContainer');
-
-        // Uses window.location.href to construct the absolute path for sharing after deployment
-        const fullShareableLink = window.location.href.replace('index.html', acceptanceURL);
 
         shareLinkContainer.innerHTML = `
             <input type="text" value="${fullShareableLink}" readonly onclick="this.select();" style="width: 100%; padding: 10px; border: 2px solid #900C3F; margin-bottom: 15px;">
@@ -66,13 +77,13 @@ function setupSignatureCanvas() {
     ctx.lineWidth = 3;
     ctx.strokeStyle = '#222';
     
-    // Setup event listeners for drawing
+    // Set up event listeners for drawing
     canvas.addEventListener('mousedown', startDrawing);
     canvas.addEventListener('mouseup', stopDrawing);
     canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('mouseleave', stopDrawing);
     
-    // Setup touch events for mobile
+    // Set up touch events for mobile
     canvas.addEventListener('touchstart', (e) => startDrawing(e.touches[0]));
     canvas.addEventListener('touchend', stopDrawing);
     canvas.addEventListener('touchcancel', stopDrawing);
@@ -131,7 +142,6 @@ function playMusic(track) {
     
     if (audio) {
         audio.loop = true;
-        // Attempt to play music
         audio.play().catch(e => console.log("Music auto-play blocked."));
     }
 }
@@ -139,11 +149,10 @@ function playMusic(track) {
 function generatePdf(proposerName, partnerName) {
     const element = document.getElementById('certificate-content');
     
-    // Hide UI elements before PDF generation
+    // Before PDF generation, embed the signature and hide UI elements
     document.getElementById('signature-area').style.display = 'none'; 
     document.getElementById('downloadPdfButton').style.display = 'none';
     
-    // Embed the drawn signature into the certificate template for PDF
     if (signatureDrawn) {
         const signatureImage = new Image();
         signatureImage.src = canvas.toDataURL('image/png');
